@@ -1,0 +1,1254 @@
+openapi: 3.0.0
+paths:
+  /api/app/status:
+    get:
+      operationId: AppController_getAppStatus
+      parameters: []
+      responses:
+        '200':
+          description: App status retreived
+      summary: Get app status
+      tags: &ref_0
+        - App
+  /api/app/timezone:
+    get:
+      operationId: AppController_getAppTimezone
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_0
+  /api/settings:
+    get:
+      operationId: SettingsController_getSettings
+      parameters: []
+      responses:
+        '200':
+          description: List of all settings
+      summary: Get all settings
+      tags: &ref_1
+        - Settings
+    post:
+      operationId: SettingsController_updateSettings
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SettingDto'
+      responses:
+        '200':
+          description: Settings updated successfully
+      summary: Update settings
+      tags: *ref_1
+  /api/settings/radarr:
+    get:
+      operationId: SettingsController_getRadarrSettings
+      parameters: []
+      responses:
+        '200':
+          description: Radarr settings retrieved successfully
+      summary: Get Radarr settings
+      tags: *ref_1
+    post:
+      operationId: SettingsController_addRadarrSetting
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RadarrSettingRawDto'
+      responses:
+        '200':
+          description: Radarr setting added successfully
+      summary: Add a new Radarr setting
+      tags: *ref_1
+  /api/settings/sonarr:
+    get:
+      operationId: SettingsController_getSonarrSettings
+      parameters: []
+      responses:
+        '200':
+          description: Sonarr settings retrieved successfully
+      summary: Get Sonarr settings
+      tags: *ref_1
+    post:
+      operationId: SettingsController_addSonarrSetting
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SonarrSettingRawDto'
+      responses:
+        '200':
+          description: Sonarr setting added successfully
+      summary: Add a new Sonarr setting
+      tags: *ref_1
+  /api/settings/version:
+    get:
+      operationId: SettingsController_getVersion
+      parameters: []
+      responses:
+        '200':
+          description: Application version retrieved successfully
+      summary: Get application version
+      tags: *ref_1
+  /api/settings/api/generate:
+    get:
+      operationId: SettingsController_generateApiKey
+      parameters: []
+      responses:
+        '200':
+          description: API key generated successfully
+      summary: Generate a new API key
+      tags: *ref_1
+  /api/settings/plex/auth:
+    delete:
+      operationId: SettingsController_deletePlexApiAuth
+      parameters: []
+      responses:
+        '200':
+          description: Plex API authentication deleted successfully
+      summary: Delete Plex API authentication
+      tags: *ref_1
+  /api/settings/plex/token:
+    post:
+      operationId: SettingsController_updateAuthToken
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                plex_auth_token:
+                  type: string
+                  example: myplexauthtoken
+      responses:
+        '200':
+          description: Plex auth token updated successfully
+      summary: Update Plex auth token
+      tags: *ref_1
+  /api/settings/test/setup:
+    get:
+      operationId: SettingsController_testSetup
+      parameters: []
+      responses:
+        '200':
+          description: Application setup tested successfully
+      summary: Test application setup
+      tags: *ref_1
+  /api/settings/test/overseerr:
+    get:
+      operationId: SettingsController_testOverseerr
+      parameters: []
+      responses:
+        '200':
+          description: Overseerr settings tested successfully
+      summary: Test Overseerr settings
+      tags: *ref_1
+  /api/settings/test/radarr:
+    post:
+      operationId: SettingsController_testRadarr
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RadarrSettingRawDto'
+      responses:
+        '200':
+          description: Radarr settings tested successfully
+      summary: Test Radarr settings
+      tags: *ref_1
+  /api/settings/radarr/{id}:
+    put:
+      operationId: SettingsController_updateRadarrSetting
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID of the Radarr setting to update
+          schema:
+            example: 1
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RadarrSettingRawDto'
+      responses:
+        '200':
+          description: Radarr setting updated successfully
+      summary: Update a Radarr setting
+      tags: *ref_1
+    delete:
+      operationId: SettingsController_deleteRadarrSetting
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID of the Radarr setting to delete
+          schema:
+            example: 1
+            type: number
+      responses:
+        '200':
+          description: Radarr setting deleted successfully
+      summary: Delete a Radarr setting
+      tags: *ref_1
+  /api/settings/test/sonarr:
+    post:
+      operationId: SettingsController_testSonarr
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SonarrSettingRawDto'
+      responses:
+        '200':
+          description: Sonarr settings tested successfully
+      summary: Test Sonarr settings
+      tags: *ref_1
+  /api/settings/sonarr/{id}:
+    put:
+      operationId: SettingsController_updateSonarrSetting
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID of the Sonarr setting to update
+          schema:
+            example: 1
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SonarrSettingRawDto'
+      responses:
+        '200':
+          description: Sonarr setting updated successfully
+      summary: Update a Sonarr setting
+      tags: *ref_1
+    delete:
+      operationId: SettingsController_deleteSonarrSetting
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID of the Sonarr setting to delete
+          schema:
+            example: 1
+            type: number
+      responses:
+        '200':
+          description: Sonarr setting deleted successfully
+      summary: Delete a Sonarr setting
+      tags: *ref_1
+  /api/settings/test/plex:
+    get:
+      operationId: SettingsController_testPlex
+      parameters: []
+      responses:
+        '200':
+          description: Plex settings tested successfully
+      summary: Test Plex settings
+      tags: *ref_1
+  /api/settings/test/tautulli:
+    get:
+      operationId: SettingsController_testTautulli
+      parameters: []
+      responses:
+        '200':
+          description: Tautulli settings tested successfully
+      summary: Test Tautulli settings
+      tags: *ref_1
+  /api/settings/plex/devices/servers:
+    get:
+      operationId: SettingsController_getPlexServers
+      parameters: []
+      responses:
+        '200':
+          description: List of Plex servers retrieved successfully
+      summary: Get Plex servers
+      tags: *ref_1
+  /api/settings/cron/validate:
+    post:
+      operationId: SettingsController_validateSingleCron
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CronScheduleDto'
+      responses:
+        '200':
+          description: CRON expression validated successfully
+      summary: Validate a CRON expression
+      tags: *ref_1
+  /api/plex:
+    get:
+      operationId: PlexApiController_getStatus
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: &ref_2
+        - PlexApi
+  /api/plex/libraries:
+    get:
+      operationId: PlexApiController_getLibraries
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+  /api/plex/library/{id}/content/{page}:
+    get:
+      operationId: PlexApiController_getLibraryContent
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+        - name: page
+          required: true
+          in: path
+          schema:
+            type: number
+        - name: amount
+          required: true
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+  /api/plex/meta/{id}:
+    get:
+      operationId: PlexApiController_getMetadata
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+  /api/plex/meta/{id}/seen:
+    get:
+      operationId: PlexApiController_getSeenBy
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+  /api/plex/users:
+    get:
+      operationId: PlexApiController_getUser
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+  /api/plex/meta/{id}/children:
+    get:
+      operationId: PlexApiController_getChildrenMetadata
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+  /api/plex/library/{id}/recent:
+    get:
+      operationId: PlexApiController_getRecentlyAdded
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+  /api/plex/library/{id}/collections:
+    get:
+      operationId: PlexApiController_getCollections
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+  /api/plex/library/collection/{collectionId}:
+    get:
+      operationId: PlexApiController_getCollection
+      parameters:
+        - name: collectionId
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+    delete:
+      operationId: PlexApiController_deleteCollection
+      parameters:
+        - name: collectionId
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+  /api/plex/library/collection/{collectionId}/children:
+    get:
+      operationId: PlexApiController_getCollectionChildren
+      parameters:
+        - name: collectionId
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+  /api/plex/search/{input}:
+    get:
+      operationId: PlexApiController_searchLibrary
+      parameters:
+        - name: input
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+  /api/plex/library/collection/{collectionId}/child/{childId}:
+    put:
+      operationId: PlexApiController_addChildToCollection
+      parameters:
+        - name: collectionId
+          required: true
+          in: path
+          schema:
+            type: number
+        - name: childId
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+    delete:
+      operationId: PlexApiController_deleteChildFromCollection
+      parameters:
+        - name: collectionId
+          required: true
+          in: path
+          schema:
+            type: number
+        - name: childId
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+  /api/plex/library/collection/update:
+    put:
+      operationId: PlexApiController_updateCollection
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+  /api/plex/library/collection/create:
+    post:
+      operationId: PlexApiController_createCollection
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags: *ref_2
+  /api/plex/library/collection/settings:
+    put:
+      operationId: PlexApiController_UpdateCollectionSettings
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionHubSettingsDto'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_2
+  /api/overseerr/movie/{id}:
+    get:
+      operationId: OverseerrApiController_getMovie
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: &ref_3
+        - OverseerrApi
+  /api/overseerr/show/{id}:
+    get:
+      operationId: OverseerrApiController_getShow
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_3
+  /api/overseerr/request/{requestId}:
+    delete:
+      operationId: OverseerrApiController_deleteRequest
+      parameters:
+        - name: requestId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_3
+  /api/overseerr/media/{mediaId}:
+    delete:
+      operationId: OverseerrApiController_deleteMedia
+      parameters:
+        - name: mediaId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_3
+  /api/overseerr/media/tmdb/{mediaId}:
+    delete:
+      operationId: OverseerrApiController_removeMediaByTmdbId
+      parameters:
+        - name: mediaId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_3
+  /api/moviedb/person/{personId}:
+    get:
+      operationId: TmdbApiController_getPerson
+      parameters:
+        - name: personId
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: &ref_4
+        - TmdbApi
+  /api/moviedb/movie/imdb/{id}:
+    get:
+      operationId: TmdbApiController_getMovie
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_4
+  /api/moviedb/backdrop/{type}/{tmdbId}:
+    get:
+      operationId: TmdbApiController_getBackdropImage
+      parameters:
+        - name: tmdbId
+          required: true
+          in: path
+          schema:
+            type: number
+        - name: type
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_4
+  /api/moviedb/image/{type}/{tmdbId}:
+    get:
+      operationId: TmdbApiController_getImage
+      parameters:
+        - name: tmdbId
+          required: true
+          in: path
+          schema:
+            type: number
+        - name: type
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_4
+  /api/rules/constants:
+    get:
+      operationId: RulesController_getRuleConstants
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: &ref_5
+        - Rules
+  /api/rules/schedule/update:
+    put:
+      operationId: RulesController_updateSchedule
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_5
+  /api/rules/community:
+    get:
+      operationId: RulesController_getCommunityRules
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_5
+    post:
+      operationId: RulesController_updateCommunityRules
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommunityRule'
+      responses:
+        '201':
+          description: ''
+      tags: *ref_5
+  /api/rules/community/count:
+    get:
+      operationId: RulesController_getCommunityRuleCount
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_5
+  /api/rules/community/karma/history:
+    get:
+      operationId: RulesController_getCommunityRuleKarmaHistory
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_5
+  /api/rules/exclusion:
+    get:
+      operationId: RulesController_getExclusion
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_5
+    post:
+      operationId: RulesController_setExclusion
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags: *ref_5
+  /api/rules/count:
+    get:
+      operationId: RulesController_getRuleGroupCount
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_5
+  /api/rules/{id}:
+    get:
+      operationId: RulesController_getRules
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_5
+    delete:
+      operationId: RulesController_deleteRuleGroup
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_5
+  /api/rules/collection/{id}:
+    get:
+      operationId: RulesController_getRuleGroupByCollectionId
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_5
+  /api/rules:
+    get:
+      operationId: RulesController_getRuleGroups
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_5
+    post:
+      operationId: RulesController_updateJob
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags: *ref_5
+    put:
+      operationId: RulesController_updateRule
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RulesDto'
+      responses:
+        '200':
+          description: ''
+      tags: *ref_5
+  /api/rules/execute:
+    post:
+      operationId: RulesController_executeRules
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags: *ref_5
+  /api/rules/exclusion/{id}:
+    delete:
+      operationId: RulesController_removeExclusion
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_5
+  /api/rules/exclusions/{plexId}:
+    delete:
+      operationId: RulesController_removeAllExclusion
+      parameters:
+        - name: plexId
+          required: true
+          in: path
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+      tags: *ref_5
+  /api/rules/community/karma:
+    post:
+      operationId: RulesController_updateCommunityRuleKarma
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags: *ref_5
+  /api/rules/yaml/encode:
+    post:
+      operationId: RulesController_yamlEncode
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags: *ref_5
+  /api/rules/yaml/decode:
+    post:
+      operationId: RulesController_yamlDecode
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags: *ref_5
+  /api/rules/test:
+    post:
+      operationId: RulesController_testRuleGroup
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags: *ref_5
+  /api/collections:
+    post:
+      operationId: CollectionsController_createCollection
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags: &ref_6
+        - Collections
+    put:
+      operationId: CollectionsController_updateCollection
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+    get:
+      operationId: CollectionsController_getCollections
+      parameters:
+        - name: libraryId
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: typeId
+          required: true
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+  /api/collections/add:
+    post:
+      operationId: CollectionsController_addToCollection
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags: *ref_6
+  /api/collections/remove:
+    post:
+      operationId: CollectionsController_removeFromCollection
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags: *ref_6
+  /api/collections/removeCollection:
+    post:
+      operationId: CollectionsController_removeCollection
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags: *ref_6
+  /api/collections/handle:
+    post:
+      operationId: CollectionsController_handleCollection
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags: *ref_6
+  /api/collections/schedule/update:
+    put:
+      operationId: CollectionsController_updateSchedule
+      parameters: []
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+  /api/collections/deactivate/{id}:
+    get:
+      operationId: CollectionsController_deactivate
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+  /api/collections/activate/{id}:
+    get:
+      operationId: CollectionsController_activate
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+  /api/collections/collection/{id}:
+    get:
+      operationId: CollectionsController_getCollection
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+  /api/collections/media/add:
+    post:
+      operationId: CollectionsController_ManualActionOnCollection
+      parameters: []
+      responses:
+        '201':
+          description: ''
+      tags: *ref_6
+  /api/collections/media:
+    delete:
+      operationId: CollectionsController_deleteMediaFromCollection
+      parameters:
+        - name: mediaId
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: collectionId
+          required: true
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+    get:
+      operationId: CollectionsController_getMediaInCollection
+      parameters:
+        - name: collectionId
+          required: true
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+  /api/collections/media/count:
+    get:
+      operationId: CollectionsController_getMediaInCollectionCount
+      parameters:
+        - name: collectionId
+          required: true
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+  /api/collections/media/{id}/content/{page}:
+    get:
+      operationId: CollectionsController_getLibraryContent
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+        - name: page
+          required: true
+          in: path
+          schema:
+            type: number
+        - name: size
+          required: true
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+  /api/collections/exclusions/{id}/content/{page}:
+    get:
+      operationId: CollectionsController_getExclusions
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+        - name: page
+          required: true
+          in: path
+          schema:
+            type: number
+        - name: size
+          required: true
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+  /api/collections/logs/{id}/content/{page}:
+    get:
+      operationId: CollectionsController_getCollectionLogs
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+        - name: page
+          required: true
+          in: path
+          schema:
+            type: number
+        - name: size
+          required: true
+          in: query
+          schema:
+            type: number
+        - name: search
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: sort
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: filter
+          required: true
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: ''
+      tags: *ref_6
+info:
+  title: Maintainerr API
+  description: Documentation for Maintainerr API
+  version: '1.0'
+  contact: {}
+tags: []
+servers: []
+components:
+  schemas:
+    SettingDto:
+      type: object
+      properties:
+        id:
+          type: number
+          description: Unique identifier for the setting
+          example: 1
+        clientId:
+          type: string
+          description: Client ID associated with the setting
+          example: 12345-abcde
+        applicationTitle:
+          type: string
+          description: Title of the application
+          example: My App
+        applicationUrl:
+          type: string
+          description: Base URL of the application
+          example: https://myapp.example.com
+        apikey:
+          type: string
+          description: API key for accessing the application
+          example: abc123xyz456
+        locale:
+          type: string
+          description: Locale setting for the application
+          example: en
+        cacheImages:
+          type: number
+          description: Cache images setting (1 = enabled, 0 = disabled)
+          example: 1
+        plex_name:
+          type: string
+          description: Name of the Plex server
+          example: My Plex Server
+        plex_hostname:
+          type: string
+          description: Hostname of the Plex server
+          example: plex.example.com
+        plex_port:
+          type: number
+          description: Port number for the Plex server
+          example: 32400
+        plex_ssl:
+          type: number
+          description: Whether Plex server uses SSL (1 = enabled, 0 = disabled)
+          example: 1
+        plex_auth_token:
+          type: string
+          description: Authentication token for the Plex server
+          example: plex_auth_token_example
+        overseerr_url:
+          type: string
+          description: URL of the Overseerr instance
+          example: https://overseerr.example.com
+        overseerr_api_key:
+          type: string
+          description: API key for the Overseerr instance
+          example: overseerr_api_key_example
+        tautulli_url:
+          type: string
+          description: URL of the Tautulli instance
+          example: https://tautulli.example.com
+        tautulli_api_key:
+          type: string
+          description: API key for the Tautulli instance
+          example: tautulli_api_key_example
+        collection_handler_job_cron:
+          type: string
+          description: CRON expression for the collection handler job
+          example: 0 0 * * *
+        rules_handler_job_cron:
+          type: string
+          description: CRON expression for the rules handler job
+          example: 0 30 * * *
+      required:
+        - id
+        - clientId
+        - applicationTitle
+        - applicationUrl
+        - apikey
+        - locale
+        - cacheImages
+        - plex_name
+        - plex_hostname
+        - plex_port
+        - plex_ssl
+        - plex_auth_token
+        - overseerr_url
+        - overseerr_api_key
+        - tautulli_url
+        - tautulli_api_key
+        - collection_handler_job_cron
+        - rules_handler_job_cron
+    RadarrSettingRawDto:
+      type: object
+      properties:
+        serverName:
+          type: string
+        url:
+          type: string
+        apiKey:
+          type: string
+      required:
+        - serverName
+        - url
+        - apiKey
+    SonarrSettingRawDto:
+      type: object
+      properties:
+        serverName:
+          type: string
+        url:
+          type: string
+        apiKey:
+          type: string
+      required:
+        - serverName
+        - url
+        - apiKey
+    CronScheduleDto:
+      type: object
+      properties: {}
+    CollectionHubSettingsDto:
+      type: object
+      properties: {}
+    RulesDto:
+      type: object
+      properties: {}
+    CommunityRule:
+      type: object
+      properties: {}
