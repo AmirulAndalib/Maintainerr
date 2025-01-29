@@ -5,3 +5,4 @@ server/dist
 ui/.next
 Dockerfile
 **/*.md
+server/src/openapi/*
