@@ -720,6 +720,12 @@ paths:
     post:
       operationId: RulesController_setExclusion
       parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExclusionContextDto'
       responses:
         '201':
           description: ''
@@ -1246,9 +1252,188 @@ components:
     CollectionHubSettingsDto:
       type: object
       properties: {}
+    RuleDto:
+      type: object
+      properties:
+        operator:
+          type: number
+          description: The operator to apply for the rule, if applicable.
+          enum:
+            - 0
+            - 1
+          nullable: true
+        action:
+          type: number
+          description: The action to perform for this rule.
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+            - 7
+            - 8
+            - 9
+            - 10
+            - 11
+        firstVal:
+          description: The first value for the rule, represented as a tuple of IDs.
+          example:
+            - 1
+            - 2
+          type: array
+          items:
+            type: string
+        lastVal:
+          description: The second value for the rule, represented as a tuple of IDs.
+          example:
+            - 3
+            - 4
+          type: array
+          items:
+            type: string
+        customVal:
+          type: object
+          description: >-
+            Custom value for the rule, used when specific types and values are
+            needed.
+          example:
+            ruleTypeId: 1
+            value: example
+        section:
+          type: number
+          description: The section to which this rule belongs.
+      required:
+        - action
+        - firstVal
+        - section
     RulesDto:
       type: object
-      properties: {}
+      properties:
+        id:
+          type: number
+          description: The unique identifier for the rule.
+        libraryId:
+          type: number
+          description: The library ID associated with the rule.
+        name:
+          type: string
+          description: The name of the rule.
+        description:
+          type: string
+          description: A description of the rule.
+        isActive:
+          type: boolean
+          description: Indicates if the rule is active.
+          default: true
+        arrAction:
+          type: number
+          description: The action to perform for Servarr.
+          default: 0
+        useRules:
+          type: boolean
+          description: Indicates if the rule should use additional rules.
+          default: true
+        collection:
+          type: object
+          description: The collection associated with the rule.
+        listExclusions:
+          type: boolean
+          description: Indicates if exclusions should be listed.
+          default: false
+        forceOverseerr:
+          type: boolean
+          description: Indicates if Overseerr should be forced.
+          default: false
+        rules:
+          description: The rules associated with the rule.
+          type: array
+          items:
+            oneOf:
+              - $ref: RuleDto
+              - $ref: RuleDbDto
+        manualCollection:
+          type: boolean
+          description: Indicates if this is a manual collection.
+          default: false
+        manualCollectionName:
+          type: string
+          description: The name of the manual collection, if applicable.
+        dataType:
+          type: number
+          description: The data type for Plex.
+          enum:
+            - 1
+            - 2
+            - 3
+            - 4
+        tautulliWatchedPercentOverride:
+          type: number
+          description: Override percentage for Tautulli watched percentage for this rule.
+        radarrSettingsId:
+          type: number
+          description: The ID of the Radarr settings associated with this rule.
+        sonarrSettingsId:
+          type: number
+          description: The ID of the Sonarr settings associated with this rule.
+      required:
+        - libraryId
+        - name
+        - description
+        - rules
+        - dataType
+    ExclusionContextDto:
+      type: object
+      properties:
+        mediaId:
+          type: number
+          description: Media identifier
+        context:
+          type: object
+          description: Media context information
+        collectionId:
+          type: number
+          description: Collection identifier
+        ruleGroupId:
+          type: number
+          description: Rule group identifier
+        action:
+          type: number
+          enum:
+            - 0
+            - 1
+          description: 'Action to perform (0: ADD, 1: REMOVE)'
+      required:
+        - mediaId
+        - context
+        - collectionId
+        - ruleGroupId
+        - action
     CommunityRule:
       type: object
-      properties: {}
+      properties:
+        id:
+          type: number
+          description: Unique identifier for the community rule
+        karma:
+          type: number
+          description: Karma score for the community rule
+        appVersion:
+          type: string
+          description: Application version compatibility
+        name:
+          type: string
+          description: Name of the community rule
+        description:
+          type: string
+          description: Description of the community rule
+        JsonRules:
+          description: Rule configuration in JSON format
+          allOf:
+            - $ref: '#/components/schemas/RuleDto'
+      required:
+        - name
+        - description
+        - JsonRules
