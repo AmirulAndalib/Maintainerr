@@ -1,4 +1,5 @@
 import { Module, OnModuleInit } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { APP_PIPE } from '@nestjs/core';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -25,6 +26,9 @@ import ormConfig from './config/typeOrmConfig';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: ['.env.local', '.env', '.env.production'],
+    }),
     TypeOrmModule.forRoot(ormConfig),
     EventEmitterModule.forRoot(),
     LogsModule,
