@@ -3,9 +3,11 @@ import { MediaType } from '../../../../contexts/constants-context'
 import Alert from '../../../Common/Alert'
 import RuleInput from './RuleInput'
 import SectionHeading from '../../../Common/SectionHeading'
+import RuleHelpModal from './RuleInput/RuleHelpModal'
 import _ from 'lodash'
 import { ClipboardListIcon } from '@heroicons/react/solid'
 import { EPlexDataType } from '../../../../utils/PlexDataType-enum'
+import { DocumentAddIcon } from '@heroicons/react/solid'
 
 interface IRulesToCreate {
   id: number
@@ -109,6 +111,12 @@ const RuleCreator = (props: iRuleCreator) => {
       added.current = added.current.filter((e) => e !== id)
     }
   }
+
+  const [ruleHelpModalOpen, setRuleHelpModalOpen] = useState(false)
+  const openRuleHelpModal = () => {
+    setRuleHelpModalOpen(true)
+  }
+  const closeRuleHelpModal = () => setRuleHelpModalOpen(false)
 
   const ruleOmitted = (id: number) => {
     if (rulesCreated) {
@@ -252,11 +260,32 @@ const RuleCreator = (props: iRuleCreator) => {
                         onCommit={ruleCommited}
                         onIncomplete={ruleOmitted}
                         onDelete={ruleDeleted}
+                        onOpenHelpModal={openRuleHelpModal}
                       />
                     </div>
                   </div>
                 ))}
               </div>
+
+              {ruleHelpModalOpen && (
+                <RuleHelpModal onClose={closeRuleHelpModal} />
+              )}
+
+              {added.current.length <= 0 ? (
+                <div className="flex w-full justify-end py-4">
+                  <button
+                    type="button"
+                    className="flex h-8 rounded bg-amber-600 text-zinc-200 shadow-md hover:bg-amber-500"
+                    onClick={() => RuleAdded(sid)}
+                    title={`Add a new rule to Section ${sid}`}
+                  >
+                    <DocumentAddIcon className="m-auto ml-5 h-5" />
+                    <p className="button-text m-auto ml-1 mr-5 text-zinc-200">
+                      Add Rule
+                    </p>
+                  </button>
+                </div>
+              ) : null}
             </div>
           </div>
         )
