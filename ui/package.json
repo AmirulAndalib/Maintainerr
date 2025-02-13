@@ -1,6 +1,6 @@
 {
   "name": "@maintainerr/ui",
-  "version": "2.8.0",
+  "version": "2.9.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -41,11 +41,11 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "@types/react-transition-group": "^4.4.12",
-    "@typescript-eslint/eslint-plugin": "^8.23.0",
+    "@typescript-eslint/eslint-plugin": "^8.24.0",
     "@typescript-eslint/parser": "^8.22.0",
     "autoprefixer": "10.4.20",
-    "eslint": "^9.19.0",
-    "eslint-config-next": "15.1.6",
+    "eslint": "^9.20.1",
+    "eslint-config-next": "15.1.7",
     "eslint-config-prettier": "^10.0.1",
     "monaco-editor": "0.52.2",
     "postcss": "^8.5.1",
