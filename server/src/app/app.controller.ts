@@ -1,8 +1,8 @@
+import { VersionResponse } from '@maintainerr/contracts';
 import { Controller, Get } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { AppService } from './app.service';
 import { ConfigResponse } from './dto/config-response.dto';
-import { VersionResponse } from './dto/version-response.dto';
-import { ConfigService } from '@nestjs/config';
 
 @Controller('/api/app')
 export class AppController {

@@ -1,5 +1,5 @@
 import { Module, OnModuleInit } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_PIPE } from '@nestjs/core';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -14,7 +14,6 @@ import { PlexApiService } from '../modules/api/plex-api/plex-api.service';
 import { ServarrApiModule } from '../modules/api/servarr-api/servarr-api.module';
 import { TautulliApiModule } from '../modules/api/tautulli-api/tautulli-api.module';
 import { TautulliApiService } from '../modules/api/tautulli-api/tautulli-api.service';
-<<<<<<< HEAD
 import { TmdbApiModule } from '../modules/api/tmdb-api/tmdb.module';
 import { CollectionsModule } from '../modules/collections/collections.module';
 import { LogsModule } from '../modules/logging/logs.module';
@@ -24,26 +23,20 @@ import { SettingsService } from '../modules/settings/settings.service';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import ormConfig from './config/typeOrmConfig';
-=======
-import { ConfigModule, ConfigService } from '@nestjs/config';
->>>>>>> 90efc7a (Fix env startup)
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: ['.env.local', '.env', '.env.production'],
+      isGlobal: true,
     }),
-<<<<<<< HEAD
-    TypeOrmModule.forRoot(ormConfig),
-    EventEmitterModule.forRoot(),
-    LogsModule,
-=======
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: ormConfig,
       inject: [ConfigService],
     }),
->>>>>>> 90efc7a (Fix env startup)
+    EventEmitterModule.forRoot(),
+    LogsModule,
     SettingsModule,
     PlexApiModule,
     ExternalApiModule,
