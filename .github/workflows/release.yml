@@ -190,14 +190,14 @@ jobs:
         if: ${{ matrix.name == 'win' }}
         with:
           include-hidden-files: true
-          name: release_windows
+          name: release_windows-${{ matrix.architecture }}
           path: ${{ github.workspace }}/_artifacts/
 
       - name: Publish artifact
         uses: actions/upload-artifact@v4
         if: ${{ matrix.name == 'osx' || matrix.name == 'linux' }}
         with:
-          name: release_${{ matrix.name }}
+          name: release_${{ matrix.name }}-${{ matrix.architecture }}
           path: ${{ github.workspace }}/_artifacts/
 
   semantic-release:
