@@ -1,19 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import GetApiHandler, {
-  PostApiHandler,
-  PutApiHandler,
-} from '../../../../utils/ApiHandler'
-import RuleCreator, { IRule } from '../../Rule/RuleCreator'
-import ConstantsContext, {
-  Application,
-} from '../../../../contexts/constants-context'
-import LibrariesContext, {
-  ILibrary,
-} from '../../../../contexts/libraries-context'
-import Alert from '../../../Common/Alert'
-import ArrAction from './ArrAction'
-import { IRuleGroup } from '..'
-import { ICollection } from '../../../Collection'
+import { CloudDownloadIcon } from '@heroicons/react/outline'
 import {
   BanIcon,
   DownloadIcon,
@@ -21,15 +6,30 @@ import {
   SaveIcon,
   UploadIcon,
 } from '@heroicons/react/solid'
-import Router from 'next/router'
 import Link from 'next/link'
-import Button from '../../../Common/Button'
-import CommunityRuleModal from '../../../Common/CommunityRuleModal'
-import { EPlexDataType } from '../../../../utils/PlexDataType-enum'
-import CachedImage from '../../../Common/CachedImage'
-import YamlImporterModal from '../../../Common/YamlImporterModal'
-import { CloudDownloadIcon } from '@heroicons/react/outline'
+import Router from 'next/router'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { useToasts } from 'react-toast-notifications'
+import { IRuleGroup } from '..'
+import ConstantsContext, {
+  Application,
+} from '../../../../contexts/constants-context'
+import LibrariesContext, {
+  ILibrary,
+} from '../../../../contexts/libraries-context'
+import GetApiHandler, {
+  PostApiHandler,
+  PutApiHandler,
+} from '../../../../utils/ApiHandler'
+import { EPlexDataType } from '../../../../utils/PlexDataType-enum'
+import { ICollection } from '../../../Collection'
+import Alert from '../../../Common/Alert'
+import Button from '../../../Common/Button'
+import CachedImage from '../../../Common/CachedImage'
+import CommunityRuleModal from '../../../Common/CommunityRuleModal'
+import YamlImporterModal from '../../../Common/YamlImporterModal'
+import RuleCreator, { IRule } from '../../Rule/RuleCreator'
+import ArrAction from './ArrAction'
 
 interface AddModal {
   editData?: IRuleGroup
@@ -52,7 +52,7 @@ interface ICreateApiObject {
   collection: {
     visibleOnRecommended: boolean
     visibleOnHome: boolean
-    deleteAfterDays: number
+    deleteAfterDays?: number
     manualCollection?: boolean
     manualCollectionName?: string
     keepLogsForMonths?: number
@@ -319,7 +319,6 @@ const AddModal = (props: AddModal) => {
     if (
       nameRef.current.value &&
       libraryRef.current.value &&
-      deleteAfterRef.current.value &&
       (radarrSettingsId !== undefined || sonarrSettingsId !== undefined) &&
       ((useRules && rules.length > 0) || !useRules)
     ) {
@@ -344,7 +343,10 @@ const AddModal = (props: AddModal) => {
         collection: {
           visibleOnRecommended: showRecommended,
           visibleOnHome: showHome,
-          deleteAfterDays: +deleteAfterRef.current.value,
+          deleteAfterDays:
+            arrOption === undefined || arrOption === 4
+              ? undefined
+              : +deleteAfterRef.current.value,
           manualCollection: manualCollection,
           manualCollectionName: manualCollectionNameRef.current.value,
           keepLogsForMonths: +keepLogsForMonthsRef.current.value,
@@ -467,7 +469,7 @@ const AddModal = (props: AddModal) => {
                     </div>
                   </div>
 
-                  <div className="form-row mt-2 items-center">
+                  <div className="form-row">
                     <label htmlFor="library" className="text-label">
                       Library *
                     </label>
@@ -514,6 +516,10 @@ const AddModal = (props: AddModal) => {
                         {
                           id: 3,
                           name: 'Unmonitor and keep files',
+                        },
+                        {
+                          id: 4,
+                          name: 'Do nothing',
                         },
                       ]}
                     />
@@ -590,6 +596,10 @@ const AddModal = (props: AddModal) => {
                                   id: 3,
                                   name: 'Unmonitor show and keep files',
                                 },
+                                {
+                                  id: 4,
+                                  name: 'Do nothing',
+                                },
                               ]
                             : +selectedType === EPlexDataType.SEASONS
                               ? [
@@ -605,6 +615,10 @@ const AddModal = (props: AddModal) => {
                                     id: 3,
                                     name: 'Unmonitor season and keep files',
                                   },
+                                  {
+                                    id: 4,
+                                    name: 'Do nothing',
+                                  },
                                 ]
                               : // episodes
                                 [
@@ -616,35 +630,65 @@ const AddModal = (props: AddModal) => {
                                     id: 3,
                                     name: 'Unmonitor and keep file',
                                   },
+                                  {
+                                    id: 4,
+                                    name: 'Do nothing',
+                                  },
                                 ]
                         }
                       />
                     </>
                   )}
 
-                  <div
-                    className={`form-row mt-2 items-center ${!tautulliEnabled ? 'mb-2' : ''}`}
-                  >
+                  {arrOption !== undefined && arrOption !== 4 && (
+                    <div className="form-row">
+                      <label
+                        htmlFor="collection_deleteDays"
+                        className="text-label"
+                      >
+                        Take action after days*
+                        <p className="text-xs font-normal">
+                          Duration of days media remains in the collection
+                          before deletion/unmonitor
+                        </p>
+                      </label>
+                      <div className="form-input">
+                        <div className="form-input-field">
+                          <input
+                            type="number"
+                            name="collection_deleteDays"
+                            id="collection_deleteDays"
+                            defaultValue={
+                              collection ? collection.deleteAfterDays : 30
+                            }
+                            ref={deleteAfterRef}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="form-row">
                     <label
-                      htmlFor="collection_deleteDays"
+                      htmlFor="collection_logs_months"
                       className="text-label"
                     >
-                      Take action after days*
+                      Keep logs for months*
                       <p className="text-xs font-normal">
-                        Duration of days media remains in the collection before
-                        deletion/unmonitor
+                        Duration for which collection logs should be retained,
+                        measured in months (0 = forever)
                       </p>
                     </label>
                     <div className="form-input">
                       <div className="form-input-field">
                         <input
                           type="number"
-                          name="collection_deleteDays"
-                          id="collection_deleteDays"
+                          name="collection_logs_months"
+                          id="collection_logs_months"
                           defaultValue={
-                            collection ? collection.deleteAfterDays : 30
+                            collection ? collection.keepLogsForMonths : 6
                           }
-                          ref={deleteAfterRef}
+                          ref={keepLogsForMonthsRef}
                         />
                       </div>
                     </div>
